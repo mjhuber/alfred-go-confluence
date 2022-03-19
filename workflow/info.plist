@@ -121,11 +121,11 @@
 	<key>variables</key>
 	<dict>
 		<key>CONFLUENCE_BASEURL</key>
-		<string>https://recharge.atlassian.net</string>
+		<string></string>
 		<key>CONFLUENCE_TOKEN</key>
-		<string>jHctnz6QxOPsEKcIHY1MA2A1</string>
+		<string></string>
 		<key>CONFLUENCE_USERNAME</key>
-		<string>mhuber@rechargeapps.com</string>
+		<string></string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
