@@ -21,9 +21,9 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string></string>
+	<string>Micah Huber</string>
 	<key>description</key>
-	<string></string>
+	<string>Search confluence from alfred</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -123,7 +123,7 @@
 		<key>CONFLUENCE_BASEURL</key>
 		<string>https://recharge.atlassian.net</string>
 		<key>CONFLUENCE_TOKEN</key>
-		<string>3TAlkzuxq9EDVa6b9iy4AEFE</string>
+		<string>jHctnz6QxOPsEKcIHY1MA2A1</string>
 		<key>CONFLUENCE_USERNAME</key>
 		<string>mhuber@rechargeapps.com</string>
 	</dict>
@@ -136,6 +136,6 @@
 	<key>version</key>
 	<string>0.0.1</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/mjhuber/alfred-go-confluence</string>
 </dict>
 </plist>

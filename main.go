@@ -27,8 +27,6 @@ func main() {
 }
 
 func run() {
-	//wf.NewItem("Hello World!").Valid(true).Var("ARG", "yahoo.com").Subtitle("this is a subtitle")
-
 	errors := []string{}
 	token, tFound := wf.Config.Env.Lookup("CONFLUENCE_TOKEN")
 	if !tFound {

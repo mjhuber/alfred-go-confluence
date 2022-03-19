@@ -8,6 +8,7 @@ import (
 )
 
 func search(token string, baseurl string, username string, searchQuery string) {
+	showUpdateStatus()
 	api, err := confluence.NewAPI(fmt.Sprintf("%s/wiki/rest/api", baseurl), username, token)
 	if err != nil {
 		log.Fatal(err)
@@ -26,8 +27,6 @@ func search(token string, baseurl string, username string, searchQuery string) {
 
 	// loop over results
 	for _, v := range result.Results {
-		//wf.NewItem(v.Content.Title).Valid(true).Var("URL", v.URL).UID(v.Title)
-		//wf.NewItem(v.Content.Title).Valid(true).Var("URL", v.URL).UID(v.Content.Title).Subtitle(v.Content.Space.Key)
 		wf.NewItem(v.Content.Title).Valid(true).Arg(fmt.Sprintf("%s/wiki%s", baseurl, v.URL)).Subtitle(v.Content.Space.Key)
 	}
 }

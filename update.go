@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/exec"
 
@@ -10,7 +9,6 @@ import (
 
 // doUpdate checks for a newer version of the workflow.
 func doUpdate() error {
-	log.Println("Checking for update...")
 	return wf.CheckForUpdate()
 }
 
@@ -32,7 +30,6 @@ func showUpdateStatus() {
 
 	if wf.UpdateAvailable() {
 		wf.Configure(aw.SuppressUIDs(true))
-		log.Println("Update available!")
 		wf.NewItem("An update is available!").
 			Subtitle("⇥ or ↩ to install update").
 			Valid(false).
