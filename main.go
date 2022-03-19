@@ -1,37 +1,58 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"os"
 
-	confluence "github.com/virtomize/confluence-go-api"
+	aw "github.com/deanishe/awgo"
+	"github.com/deanishe/awgo/update"
 )
 
+var (
+	// icons
+	updateAvailable = &aw.Icon{Value: "icons/update-available.png"}
+
+	repo  = "mjhuber/alfred-go-confluence"
+	query string
+
+	// aw.Workflow is the main API
+	wf *aw.Workflow
+)
+
+func init() {
+	wf = aw.New(update.GitHub(repo), aw.HelpURL(repo+"/issues"))
+}
+
 func main() {
+	wf.Run(run)
+}
 
-	url := os.Getenv("CONFLUENCE_BASEURL")
-	username := os.Getenv("CONFLUENCE_USERNAME")
-	token := os.Getenv("CONFLUENCE_TOKEN")
+func run() {
+	//wf.NewItem("Hello World!").Valid(true).Var("ARG", "yahoo.com").Subtitle("this is a subtitle")
 
-	api, err := confluence.NewAPI(url, username, token)
-	if err != nil {
-		log.Fatal(err)
+	errors := []string{}
+	token, tFound := wf.Config.Env.Lookup("CONFLUENCE_TOKEN")
+	if !tFound {
+		errors = append(errors, "CONFLUENCE_TOKEN is not set!")
 	}
 
-	// define your Search parameters
-	query := confluence.SearchQuery{
-		CQL: fmt.Sprintf("type=page and title~'%s'", os.Args[1]),
+	baseurl, bFound := wf.Config.Env.Lookup("CONFLUENCE_BASEURL")
+	if !bFound {
+		errors = append(errors, "CONFLUENCE_BASEURL is not set!")
 	}
 
-	// execute search
-	result, err := api.Search(query)
-	if err != nil {
-		log.Fatal(err)
+	username, uFound := wf.Config.Env.Lookup("CONFLUENCE_USERNAME")
+	if !uFound {
+		errors = append(errors, "CONFLUENCE_USERNAME is not set!")
 	}
 
-	// loop over results
-	for _, v := range result.Results {
-		fmt.Printf("%s: %s\n", v.Content.Title, v.URL)
+	if len(errors) > 0 {
+		for _, err := range errors {
+			wf.WarnEmpty(err, "")
+		}
+		wf.SendFeedback()
+		return
 	}
+
+	search(token, baseurl, username, os.Args[1])
+	wf.SendFeedback()
 }
