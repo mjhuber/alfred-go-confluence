@@ -2,7 +2,7 @@
 
 an alfred workflow to search confluence
 
-## Setup
+## Setup and Usage
 
 1. Go to the releases page and download/import the workflow into alred.
 2. Edit the workflow and make sure the following variables are set:
@@ -10,6 +10,8 @@ an alfred workflow to search confluence
 * `CONFLUENCE_BASEURL` (ex: `https://<your-company>.atlassian.net`)
 * `CONFLUENCE_TOKEN`: Your confluence access token.  You can generate a token in your [Atlassian Account Settings](https://id.atlassian.com/manage-profile/security/api-tokens)
 * `CONFLUENCE_USERNAME`: Your conflunece username
+
+3. Search for confluence pages with `confluence <search>`
 
 ## FAQ
 
