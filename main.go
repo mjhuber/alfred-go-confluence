@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 
 	aw "github.com/deanishe/awgo"
 	"github.com/deanishe/awgo/update"
@@ -18,6 +19,13 @@ var (
 	wf *aw.Workflow
 )
 
+// Options contains options for connecting to the confluence API
+type Options struct {
+	BaseURL  string `env:"CONFLUENCE_BASEURL"`
+	Token    string `env:"CONFLUENCE_TOKEN"`
+	Username string `env:"CONFLUENCE_USERNAME"`
+}
+
 func init() {
 	wf = aw.New(update.GitHub(repo), aw.HelpURL(repo+"/issues"))
 }
@@ -27,30 +35,14 @@ func main() {
 }
 
 func run() {
-	errors := []string{}
-	token, tFound := wf.Config.Env.Lookup("CONFLUENCE_TOKEN")
-	if !tFound {
-		errors = append(errors, "CONFLUENCE_TOKEN is not set!")
-	}
-
-	baseurl, bFound := wf.Config.Env.Lookup("CONFLUENCE_BASEURL")
-	if !bFound {
-		errors = append(errors, "CONFLUENCE_BASEURL is not set!")
-	}
-
-	username, uFound := wf.Config.Env.Lookup("CONFLUENCE_USERNAME")
-	if !uFound {
-		errors = append(errors, "CONFLUENCE_USERNAME is not set!")
-	}
-
-	if len(errors) > 0 {
-		for _, err := range errors {
-			wf.WarnEmpty(err, "")
-		}
-		wf.SendFeedback()
+	opts := &Options{}
+	cfg := aw.NewConfig()
+	if err := cfg.To(opts); err != nil {
+		wf.Fatalf("Error loading variables: %v", err)
 		return
 	}
 
-	search(token, baseurl, username, os.Args[1])
+	query := strings.Join(os.Args[1:], " ")
+	search(opts, query)
 	wf.SendFeedback()
 }
